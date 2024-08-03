@@ -1,0 +1,19 @@
+{
+  "name": "oura-api-webhook",
+  "version": "0.0.1",
+  "description": "(Oura API documentation for webhooks)[https://cloud.ouraring.com/v2/docs#tag/Webhook-Subscription-Routes]",
+  "main": "api.js",
+  "type": "module",
+  "scripts": {
+    "start": "node api.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {}
+}
