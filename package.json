@@ -2,18 +2,22 @@
   "name": "oura-api-webhook",
   "version": "0.0.1",
   "description": "(Oura API documentation for webhooks)[https://cloud.ouraring.com/v2/docs#tag/Webhook-Subscription-Routes]",
-  "main": "api.js",
+  "main": "./api/index.ts",
   "type": "module",
   "scripts": {
-    "start": "node api.js",
+    "start": "node ./api/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.1.0",
+    "@types/pg": "^8.11.6",
     "express": "^4.19.2",
-    "pg": "^8.12.0"
+    "pg": "^8.12.0",
+    "typescript": "^5.5.4"
   },
   "devDependencies": {}
 }
