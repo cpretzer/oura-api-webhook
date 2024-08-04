@@ -1,21 +1,21 @@
 import express from 'express'
-import pg from 'pg'
+import {sql} from '@vercel/postgres'
 
-const { Client } = pg
+// const { Client } = pg
 
-const client = new Client({
-    connectionString: process.env.POSTGRES_URL
-})
+// const client = new Client({
+//     connectionString: process.env.POSTGRES_URL
+// })
 
-await client.connect()
+// await client.connect()
 
 const app = express()
 // const OURA_PAYLOADS_TABLE = 'ouraPayloads'
 const OURA_SIG_HEADER = 'x-oura-signature'
 const OURA_TIME_HEADER = 'x-oura-timestamp'
 
-// const result = await client.query(`SELECT COUNT(0) from ${OURA_PAYLOADS_TABLE}`)
-// console.log(result)
+const result = await sql`SELECT id from ouraPayloads`
+console.log(result)
 
 app.use(express.json())
 
@@ -32,6 +32,7 @@ app.post('/api/oura-webhook', (req, res) => {
 });
 
 app.get('/healthbeat', (req, res) => {
+    console.log('lub-dub')
     res.json({ status: 'lub-dub' })
 });
 
