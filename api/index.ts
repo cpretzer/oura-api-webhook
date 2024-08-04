@@ -1,21 +1,21 @@
 import express from 'express'
-import {sql} from '@vercel/postgres'
+import pg from 'pg'
 
-// const { Client } = pg
+const { Client } = pg
 
-// const client = new Client({
-//     connectionString: process.env.POSTGRES_URL
-// })
+const client = new Client({
+    connectionString: process.env.POSTGRES_URL
+})
 
-// await client.connect()
+await client.connect()
 
 const app = express()
-const OURA_PAYLOADS_TABLE = 'ouraPayloads'
+// const OURA_PAYLOADS_TABLE = 'ouraPayloads'
 const OURA_SIG_HEADER = 'x-oura-signature'
 const OURA_TIME_HEADER = 'x-oura-timestamp'
 
-const result = await sql`SELECT COUNT(0) from ${OURA_PAYLOADS_TABLE}`
-console.log(result)
+// const result = await client.query(`SELECT COUNT(0) from ${OURA_PAYLOADS_TABLE}`)
+// console.log(result)
 
 app.use(express.json())
 
