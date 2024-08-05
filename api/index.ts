@@ -13,22 +13,44 @@ const app = express()
 // const OURA_PAYLOADS_TABLE = 'ouraPayloads'
 const OURA_SIG_HEADER = 'x-oura-signature'
 const OURA_TIME_HEADER = 'x-oura-timestamp'
+const HOST_HEADER = 'host'
 
-const result = await sql`SELECT id from ouraPayloads`
-console.log(result)
+// const result = await sql`SELECT id from ouraPayloads`
+// console.log(result)
 
 app.use(express.json())
 
-app.post('/api/oura-webhook', (req, res) => {
+app.get('/api/oura-webhook', async (req, res) => {
+    const verificationTokenParam = req.get('verification_token')
+    const challengeString = req.get('challenge')
+
+    // console.log()
+    console.log(req.param['verificationTokenParam'])
+    console.log(req.param('challengeString'))
+
+    res.json({verificationTokenParam: verificationTokenParam, challenge: challengeString})
+
+})
+
+app.post('/api/oura-webhook', async (req, res) => {
     const sigHeader = req.get(OURA_SIG_HEADER)
     const timeHeader = req.get(OURA_TIME_HEADER)
+    const hostHeader = req.get(HOST_HEADER)
     const payload = req.body
 
-    console.log(payload)
+    console.log(hostHeader)
     console.log(sigHeader)
     console.log(timeHeader)
 
-    res.json({ received: payload })
+    const insertResult = await sql`
+        insert into oura_payloads (data_type, event_time, event_type, 
+        object_id, user_id)
+        values (${payload['data_type']}, ${payload['event_time']}, 
+        ${payload['event_type']}, ${payload['object_id']},
+        ${payload['user_id']})
+    `
+
+    res.json({ received: insertResult })
 });
 
 app.get('/healthbeat', (req, res) => {
