@@ -14,7 +14,7 @@ const app = express()
 const OURA_SIG_HEADER = 'x-oura-signature'
 const OURA_TIME_HEADER = 'x-oura-timestamp'
 const HOST_HEADER = 'host'
-const VERIFICATION_TOKEN = process.env.OAW_VERIFICATION_TOKEN || undefined
+const VERIFICATION_TOKEN = process.env.OAW_VERIFICATION_TOKEN || undefined // undefined is the wrong default here
 
 // const result = await sql`SELECT id from ouraPayloads`
 // console.log(result)
@@ -22,16 +22,28 @@ const VERIFICATION_TOKEN = process.env.OAW_VERIFICATION_TOKEN || undefined
 app.use(express.json())
 
 app.get('/api/oura-webhook', async (req, res) => {
-    const verificationTokenParam = req.query['verification_token']
-    const challengeString = req.query['challenge']
 
-    // console.log()
-    console.log(verificationTokenParam)
-    console.log(verificationTokenParam === VERIFICATION_TOKEN)
-    console.log(challengeString)
-
-    res.json({challenge: challengeString})
-
+    if (VERIFICATION_TOKEN === undefined) {
+        console.log("no OAW_VERIFICATION_TOKEN environment variable set")
+    } else {
+        const verificationTokenParam = req.query['verification_token']
+        const challengeString = req.query['challenge']
+    
+        // console.log()
+        console.log(verificationTokenParam)
+        // console.log()
+        console.log(challengeString)
+    
+        if (verificationTokenParam === VERIFICATION_TOKEN) {
+            res.json({challenge: challengeString}).send()
+            return
+        } else {
+            console.log(`the verification_token is invalid ${verificationTokenParam}`)
+        }
+        
+        
+    }
+    res.status(204).send();
 })
 
 app.post('/api/oura-webhook', async (req, res) => {
