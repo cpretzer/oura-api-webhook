@@ -14,6 +14,7 @@ const app = express()
 const OURA_SIG_HEADER = 'x-oura-signature'
 const OURA_TIME_HEADER = 'x-oura-timestamp'
 const HOST_HEADER = 'host'
+const VERIFICATION_TOKEN = process.env.OAW_VERIFICATION_TOKEN || undefined
 
 // const result = await sql`SELECT id from ouraPayloads`
 // console.log(result)
@@ -21,14 +22,15 @@ const HOST_HEADER = 'host'
 app.use(express.json())
 
 app.get('/api/oura-webhook', async (req, res) => {
-    const verificationTokenParam = req.get('verification_token')
-    const challengeString = req.get('challenge')
+    const verificationTokenParam = req.query['verification_token']
+    const challengeString = req.query['challenge']
 
     // console.log()
-    console.log(req.param['verificationTokenParam'])
-    console.log(req.param('challengeString'))
+    console.log(verificationTokenParam)
+    console.log(verificationTokenParam === VERIFICATION_TOKEN)
+    console.log(challengeString)
 
-    res.json({verificationTokenParam: verificationTokenParam, challenge: challengeString})
+    res.json({challenge: challengeString})
 
 })
 
