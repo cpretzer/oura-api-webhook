@@ -26,4 +26,4 @@ develop the proper OAuth configuration to obtain consent from users.
 
 I may do that in the future.
 
-(Oura API documentation for webhooks)[https://cloud.ouraring.com/v2/docs#tag/Webhook-Subscription-Routes]
+[Oura API documentation for webhooks](https://cloud.ouraring.com/v2/docs#tag/Webhook-Subscription-Routes)
